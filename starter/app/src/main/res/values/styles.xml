@@ -8,4 +8,22 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="style_item_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+
+        <item name="android:layout_marginStart">@dimen/large_margin</item>
+        <item name="android:layout_marginEnd">@dimen/large_margin</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/text_grey</item>
+        <item name="android:textStyle">bold</item>
+
+
+    </style>
+    <style name="style_header_text"  parent="@style/style_item_text">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/default_text_color</item>
+    </style>
+
+
 </resources>
