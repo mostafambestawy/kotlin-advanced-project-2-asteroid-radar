@@ -127,7 +127,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:textColor="@color/default_text_color"
-                    app:velocityText="@{asteroid.relativeVelocity}"
+                    android:text="@{asteroid.relativeVelocity}"
                     tools:text="11.9 km/s" />
 
                 <TextView

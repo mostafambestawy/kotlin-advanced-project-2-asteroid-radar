@@ -1,4 +1,4 @@
-package com.udacity.asteroidradar.api
+package com.udacity.asteroidradar.network
 
 import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.Constants
@@ -6,6 +6,8 @@ import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+
+
 
 fun parseAsteroidsJsonResult(jsonResult: JSONObject): ArrayList<Asteroid> {
     val nearEarthObjectsJson = jsonResult.getJSONObject("near_earth_objects")
@@ -19,7 +21,7 @@ fun parseAsteroidsJsonResult(jsonResult: JSONObject): ArrayList<Asteroid> {
 
             for (i in 0 until dateAsteroidJsonArray.length()) {
                 val asteroidJson = dateAsteroidJsonArray.getJSONObject(i)
-                val id = asteroidJson.getLong("id")
+                val id = asteroidJson.getString("id")
                 val codename = asteroidJson.getString("name")
                 val absoluteMagnitude = asteroidJson.getDouble("absolute_magnitude_h")
                 val estimatedDiameter = asteroidJson.getJSONObject("estimated_diameter")
@@ -28,7 +30,7 @@ fun parseAsteroidsJsonResult(jsonResult: JSONObject): ArrayList<Asteroid> {
                 val closeApproachData = asteroidJson
                     .getJSONArray("close_approach_data").getJSONObject(0)
                 val relativeVelocity = closeApproachData.getJSONObject("relative_velocity")
-                    .getDouble("kilometers_per_second")
+                    .getString("kilometers_per_second")
                 val distanceFromEarth = closeApproachData.getJSONObject("miss_distance")
                     .getDouble("astronomical")
                 val isPotentiallyHazardous = asteroidJson
@@ -57,3 +59,8 @@ private fun getNextSevenDaysFormattedDates(): ArrayList<String> {
 
     return formattedDateList
 }
+
+
+
+
+
