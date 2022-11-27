@@ -9,14 +9,14 @@ import com.udacity.asteroidradar.db.Room.AsteroidRoomDB
 import com.udacity.asteroidradar.network.AsteroidApi
 import com.udacity.asteroidradar.network.parseAsteroidsJsonResult
 import com.udacity.asteroidradar.toAsteroidEntity
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import com.udacity.asteroidradar.db.Entities.AsteroidEntity
 import com.udacity.asteroidradar.main.RequestStatus
+import kotlinx.coroutines.*
+import kotlinx.coroutines.GlobalScope.coroutineContext
 
 class AsteroidRepository(private val asteroidRoomDB: AsteroidRoomDB) {
     /**
@@ -35,9 +35,14 @@ class AsteroidRepository(private val asteroidRoomDB: AsteroidRoomDB) {
                     val jsonData = JSONObject(response.body().toString())
                     val asteroids = parseAsteroidsJsonResult(jsonData)
                     val asteroidsEntities = asteroids.toAsteroidEntity()
-                    suspend {
-                        asteroidRoomDB.asteroidDao.insertAsteroids(listOf(asteroidsEntities[0]))
+                    /**
+                     * solution to execute insert function in Call back
+                     * if retrofit  coroutines used it shall be insert().await
+                     * */
+                   GlobalScope.launch(Dispatchers.IO) {
+                        asteroidRoomDB.asteroidDao.insertAsteroids(asteroidsEntities)
                     }
+
 
                     status.postValue(RequestStatus.DONE)
                 }
