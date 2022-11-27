@@ -27,6 +27,10 @@ class MainFragment : Fragment() {
         binding.lifecycleOwner = this
 
         binding.viewModel = viewModel
+        binding.asteroidRecycler.adapter = AsteroidsRecyclerViewAdapter(AsteroidsRecyclerViewAdapter.OnClickListener {
+            viewModel.navigateToDetailsScreen()
+            viewModel.onNavigateToDetailsScreen()
+        }   )
 
         setHasOptionsMenu(true)
 

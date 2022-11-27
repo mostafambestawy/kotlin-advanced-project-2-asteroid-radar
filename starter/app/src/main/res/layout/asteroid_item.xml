@@ -4,6 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <variable
+            name="asteroidEntity"
+            type="com.udacity.asteroidradar.db.Entities.AsteroidEntity" />
 
     </data>
 
@@ -20,6 +23,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_margin="@dimen/large_margin"
+            app:hazard_status="@{asteroidEntity.hazard_status}"
             />
         <TextView
             android:id="@+id/asteroidNameText"
@@ -27,7 +31,8 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:text="683347 (2001K B67)"
             android:layout_marginTop="@dimen/large_margin"
-            style="@style/style_header_text" />
+            style="@style/style_header_text"
+            android:text="@{asteroidEntity.name}"/>
 
         <TextView
             android:id="@+id/asteroidDate"
@@ -37,6 +42,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginBottom="@dimen/large_margin"
+            android:text="@{asteroidEntity.date}"
             tools:text="2022-11-25"
             style="@style/style_item_text"/>
 

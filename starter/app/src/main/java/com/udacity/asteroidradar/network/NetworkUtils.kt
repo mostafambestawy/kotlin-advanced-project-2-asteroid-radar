@@ -32,7 +32,7 @@ fun parseAsteroidsJsonResult(jsonResult: JSONObject): ArrayList<Asteroid> {
                 val relativeVelocity = closeApproachData.getJSONObject("relative_velocity")
                     .getString("kilometers_per_second")
                 val distanceFromEarth = closeApproachData.getJSONObject("miss_distance")
-                    .getDouble("astronomical")
+                    .getString("astronomical")
                 val isPotentiallyHazardous = asteroidJson
                     .getBoolean("is_potentially_hazardous_asteroid")
 

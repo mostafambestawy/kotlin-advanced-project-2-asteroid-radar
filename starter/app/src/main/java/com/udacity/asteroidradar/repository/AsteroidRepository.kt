@@ -28,21 +28,24 @@ class AsteroidRepository(private val asteroidRoomDB: AsteroidRoomDB) {
      * */
     suspend fun refreshAsteroids(){
         withContext(Dispatchers.IO){
-            status.value = RequestStatus.LOADING
+            status.postValue(RequestStatus.LOADING)
             AsteroidApi.asteroidServiceInterface.getAsteroidList().enqueue(object:
                 Callback<String> {
                 override fun onResponse(call: Call<String>, response: Response<String>) {
                     val jsonData = JSONObject(response.body().toString())
                     val asteroids = parseAsteroidsJsonResult(jsonData)
                     val asteroidsEntities = asteroids.toAsteroidEntity()
-                    asteroidRoomDB.asteroidDao.insertAsteroids(asteroidsEntities)
-                    status.value = RequestStatus.DONE
+                    suspend {
+                        asteroidRoomDB.asteroidDao.insertAsteroids(listOf(asteroidsEntities[0]))
+                    }
+
+                    status.postValue(RequestStatus.DONE)
                 }
 
 
 
                 override fun onFailure(call: Call<String>, t: Throwable) {
-                    status.value = RequestStatus.ERROR
+                    status.postValue(RequestStatus.ERROR)
                 }
             })
         }

@@ -13,5 +13,6 @@ class Entities {
         val absolute_magnitude: Double,
         val estimated_diameter: Double,
         val relative_velocity: String,
+        val distance_from_earth: String
         )
 }
