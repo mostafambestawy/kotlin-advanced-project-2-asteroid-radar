@@ -1,18 +1,29 @@
 package com.udacity.asteroidradar
 
+import android.net.Uri
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import com.udacity.asteroidradar.db.Entities
 import com.udacity.asteroidradar.main.AsteroidsRecyclerViewAdapter
 import com.udacity.asteroidradar.db.Entities.AsteroidEntity
 
 @BindingAdapter("asteroidsList")
 fun bind_asteroidsList(recyclerView: RecyclerView,data:List<AsteroidEntity>?){
-    val adapter =  recyclerView.adapter as AsteroidsRecyclerViewAdapter
-    adapter.submitList(data)
+    data?.let {
+        val adapter =  recyclerView.adapter as AsteroidsRecyclerViewAdapter
+        adapter.submitList(data)
+    }
+
 }
+@BindingAdapter("pictureOfDayUrl")
+fun bind_pictureOfDayUrl(imageView: ImageView, url: String?) {
+    url?.let { Picasso.with(imageView.context).load(Uri.parse(url)).into(imageView)}
+
+}
+
 @BindingAdapter("hazard_status")
 fun bind_hazard_status(imageView: ImageView, hazard_status: Boolean) {
     if (hazard_status) {

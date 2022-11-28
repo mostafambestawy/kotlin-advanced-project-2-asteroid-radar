@@ -3,7 +3,7 @@ package com.udacity.asteroidradar
 import android.os.Parcelable
 import com.udacity.asteroidradar.db.Entities
 import kotlinx.android.parcel.Parcelize
-
+import com.udacity.asteroidradar.db.Entities.AsteroidEntity
 @Parcelize
 data class Asteroid(
     val id: String, val codename: String, val closeApproachDate: String,
@@ -12,9 +12,9 @@ data class Asteroid(
     val isPotentiallyHazardous: Boolean
 ) : Parcelable
 
-fun List<Asteroid>.toAsteroidEntity(): List<Entities.AsteroidEntity> {
+fun List<Asteroid>.toAsteroidEntity(): List<AsteroidEntity> {
     return map {
-        Entities.AsteroidEntity(
+        AsteroidEntity(
             it.id,
             it.codename,
             it.closeApproachDate,

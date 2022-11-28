@@ -9,12 +9,21 @@ import com.udacity.asteroidradar.db.Entities.AsteroidEntity
 
 class DAO {
     @Dao
-    interface AsteroidDao{
+    interface AsteroidDao {
         @Query("SELECT * FROM asteroid")
         fun getAsteroid(): LiveData<List<AsteroidEntity>>
 
 
         @Insert(onConflict = OnConflictStrategy.REPLACE)
         fun insertAsteroids(asteroidEntity: List<AsteroidEntity>)
+    }
+    @Dao
+    interface PictureOfDayDao {
+        @Query("SELECT * FROM picture_of_day where id = 1")
+        fun getPictureOfDayEntity(): LiveData<Entities.PictureOfDayEntity>
+
+        @Insert(onConflict = OnConflictStrategy.REPLACE)
+        fun insertPictureOfDayEntity(pictureOfDayEntity: Entities.PictureOfDayEntity)
+
     }
 }

@@ -63,14 +63,17 @@ class MainViewModel(application: Application) : AndroidViewModel(application){
     init {
         viewModelScope.launch {
             asteroidRepository.refreshAsteroids()
+            asteroidRepository.getPictureOfDay()
         }
     }
     /**
      * get live data asteroids from repository
      */
     val asteroidsEntities = asteroidRepository.asteroidsEntities
+    val pictureOfDayEntity = asteroidRepository.pictureOfDayEntity
     // The external immutable LiveData for the request status
     val status: LiveData<RequestStatus> = asteroidRepository.status
+
 
 
         /**

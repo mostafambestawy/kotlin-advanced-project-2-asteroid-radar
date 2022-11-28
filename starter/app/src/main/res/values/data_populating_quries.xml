@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="data_populating_queries">
+        <item>INSERT INTO picture_of_day (id,media_type,title,url) VALUES (\'0\',\'image\',\'populated tile\',\'https://apod.nasa.gov/apod/image/2211/Leonids2022_Hongyang_960.jpg\')</item>
+    </string-array>
+</resources>
