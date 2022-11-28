@@ -5,21 +5,22 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.udacity.asteroidradar.AsteroidBrief
 import com.udacity.asteroidradar.databinding.AsteroidItemBinding
 import com.udacity.asteroidradar.db.Entities.AsteroidEntity
 
 
 class AsteroidsRecyclerViewAdapter(val onClickListener: OnClickListener) :
-    ListAdapter<AsteroidEntity, AsteroidsRecyclerViewAdapter.AsteroidViewHolder>(DiffCallback) {
+    ListAdapter<AsteroidBrief, AsteroidsRecyclerViewAdapter.AsteroidViewHolder>(DiffCallback) {
     /**
      * The AsteroidViewHolder constructor takes the binding variable from the associated
-     * AsteroidItem, which nicely gives it access to the full [AsteroidEntity] information.
+     * AsteroidItem, which nicely gives it access to the full [AsteroidBrief] information.
      */
     class AsteroidViewHolder(private var binding: AsteroidItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(asteroidEntity: AsteroidEntity) {
-            binding.asteroidEntity = asteroidEntity
+        fun bind(asteroidBrief: AsteroidBrief) {
+            binding.asteroidBrief = asteroidBrief
             // This is important, because it forces the data binding to execute immediately,
             // which allows the RecyclerView to make the correct view size measurements
             binding.executePendingBindings()
@@ -29,15 +30,15 @@ class AsteroidsRecyclerViewAdapter(val onClickListener: OnClickListener) :
     }
 
     /**
-     * Allows the RecyclerView to determine which items have changed when the [List] of [AsteroidEntity]
+     * Allows the RecyclerView to determine which items have changed when the [List] of [AsteroidBrief]
      * has been updated.
      */
-    companion object DiffCallback : DiffUtil.ItemCallback<AsteroidEntity>() {
-        override fun areItemsTheSame(oldItem: AsteroidEntity, newItem: AsteroidEntity): Boolean {
+    companion object DiffCallback : DiffUtil.ItemCallback<AsteroidBrief>() {
+        override fun areItemsTheSame(oldItem: AsteroidBrief, newItem: AsteroidBrief): Boolean {
             return oldItem === newItem
         }
 
-        override fun areContentsTheSame(oldItem: AsteroidEntity, newItem: AsteroidEntity): Boolean {
+        override fun areContentsTheSame(oldItem: AsteroidBrief, newItem: AsteroidBrief): Boolean {
             return oldItem.id == newItem.id
         }
     }
@@ -66,19 +67,19 @@ class AsteroidsRecyclerViewAdapter(val onClickListener: OnClickListener) :
      * Replaces the contents of a view (invoked by the layout manager)
      */
     override fun onBindViewHolder(holder: AsteroidViewHolder, position: Int) {
-        val asteroidEntity = getItem(position)
+        val asteroidBrief = getItem(position)
         holder.itemView.setOnClickListener {
-            onClickListener.onClick(asteroidEntity)
+            onClickListener.onClick(asteroidBrief)
         }
-        holder.bind(asteroidEntity)
+        holder.bind(asteroidBrief)
     }
 
     /**
-     * Custom listener that handles clicks on [RecyclerView] items.  Passes the [AsteroidEntity]
+     * Custom listener that handles clicks on [RecyclerView] items.  Passes the [AsteroidBrief]
      * associated with the current item to the [onClick] function.
-     * @param clickListener lambda that will be called with the current [AsteroidEntity]
+     * @param clickListener lambda that will be called with the current [AsteroidBrief]
      */
-    class OnClickListener(val clickListener: (asteroidEntity: AsteroidEntity) -> Unit) {
-        fun onClick(asteroidEntity: AsteroidEntity) = clickListener(asteroidEntity)
+    class OnClickListener(val clickListener: (asteroidBrief: AsteroidBrief) -> Unit) {
+        fun onClick(asteroidBrief: AsteroidBrief) = clickListener(asteroidBrief)
     }
 }

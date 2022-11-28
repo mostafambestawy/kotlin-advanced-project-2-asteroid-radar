@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="asteroidEntity"
-            type="com.udacity.asteroidradar.db.Entities.AsteroidEntity" />
+            name="asteroidBrief"
+            type="com.udacity.asteroidradar.AsteroidBrief" />
 
     </data>
 
@@ -30,13 +30,13 @@
                 android:id="@+id/asteroidNameText"
                 style="@style/style_header_text"
                 android:layout_marginTop="@dimen/large_margin"
-                android:text="@{asteroidEntity.name}"
+                android:text="@{asteroidBrief.name}"
                 tools:text="683347 (2001K B67)" />
 
             <TextView
                 android:id="@+id/asteroidDate"
                 style="@style/style_item_text"
-                android:text="@{asteroidEntity.date}"
+                android:text="@{asteroidBrief.date}"
                 tools:text="25-11-2022"
                 />
 
@@ -51,7 +51,7 @@
                 android:id="@+id/hazardStatusImageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:hazard_status="@{asteroidEntity.hazard_status}"
+                app:hazard_status="@{asteroidBrief.hazard_status}"
                 tools:src="@drawable/ic_status_potentially_hazardous" />
         </LinearLayout>
 

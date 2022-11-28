@@ -11,7 +11,7 @@ import com.udacity.asteroidradar.main.AsteroidsRecyclerViewAdapter
 import com.udacity.asteroidradar.db.Entities.AsteroidEntity
 
 @BindingAdapter("asteroidsList")
-fun bind_asteroidsList(recyclerView: RecyclerView,data:List<AsteroidEntity>?){
+fun bind_asteroidsList(recyclerView: RecyclerView,data:List<AsteroidBrief>?){
     data?.let {
         val adapter =  recyclerView.adapter as AsteroidsRecyclerViewAdapter
         adapter.submitList(data)

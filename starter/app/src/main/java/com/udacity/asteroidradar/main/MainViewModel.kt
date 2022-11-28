@@ -69,7 +69,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application){
     /**
      * get live data asteroids from repository
      */
-    val asteroidsEntities = asteroidRepository.asteroidsEntities
+    //val asteroidsEntities = asteroidRepository.asteroidsEntities
+    val asteroidsBriefs = asteroidRepository.asteroidsBriefs
+
     val pictureOfDayEntity = asteroidRepository.pictureOfDayEntity
     // The external immutable LiveData for the request status
     val status: LiveData<RequestStatus> = asteroidRepository.status

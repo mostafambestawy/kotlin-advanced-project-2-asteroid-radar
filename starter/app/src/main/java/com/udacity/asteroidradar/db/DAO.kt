@@ -5,6 +5,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.udacity.asteroidradar.AsteroidBrief
+import com.udacity.asteroidradar.AsteroidDetails
 import com.udacity.asteroidradar.db.Entities.AsteroidEntity
 
 class DAO {
@@ -16,6 +18,13 @@ class DAO {
 
         @Insert(onConflict = OnConflictStrategy.REPLACE)
         fun insertAsteroids(asteroidEntity: List<AsteroidEntity>)
+
+        @Query("SELECT id,name,date,hazard_status FROM asteroid")
+        fun getAsteroidsBriefs(): LiveData<List<AsteroidBrief>>
+
+        @Query("SELECT id,hazard_status,absolute_magnitude,estimated_diameter,relative_velocity,distance_from_earth FROM asteroid WHERE id=:asteroid_id")
+        fun getAsteroidDetails(asteroid_id:String): LiveData<List<AsteroidDetails>>
+        
     }
     @Dao
     interface PictureOfDayDao {
