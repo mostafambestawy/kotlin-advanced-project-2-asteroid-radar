@@ -2,27 +2,30 @@ package com.udacity.asteroidradar.main
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.udacity.asteroidradar.databinding.AsteroidItemBinding
-import com.udacity.asteroidradar.db.Entities
 import com.udacity.asteroidradar.db.Entities.AsteroidEntity
 
-class AsteroidsRecyclerViewAdapter( val onClickListener: OnClickListener ) :
+
+class AsteroidsRecyclerViewAdapter(val onClickListener: OnClickListener) :
     ListAdapter<AsteroidEntity, AsteroidsRecyclerViewAdapter.AsteroidViewHolder>(DiffCallback) {
     /**
      * The AsteroidViewHolder constructor takes the binding variable from the associated
      * AsteroidItem, which nicely gives it access to the full [AsteroidEntity] information.
      */
-    class AsteroidViewHolder(private var binding: AsteroidItemBinding):
+    class AsteroidViewHolder(private var binding: AsteroidItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun bind(asteroidEntity: AsteroidEntity) {
             binding.asteroidEntity = asteroidEntity
             // This is important, because it forces the data binding to execute immediately,
             // which allows the RecyclerView to make the correct view size measurements
             binding.executePendingBindings()
         }
+
+
     }
 
     /**
@@ -42,9 +45,21 @@ class AsteroidsRecyclerViewAdapter( val onClickListener: OnClickListener ) :
     /**
      * Create new [RecyclerView] item views (invoked by the layout manager)
      */
-    override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int): AsteroidViewHolder {
-        return AsteroidViewHolder(AsteroidItemBinding.inflate(LayoutInflater.from(parent.context)))
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): AsteroidViewHolder {
+
+        return AsteroidViewHolder(
+            AsteroidItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                /**
+                 * we must use the complete arguments function by passing parent, false
+                 * to ensure  the whole width of recycler view
+                 * */
+                parent, false
+            )
+        )
     }
 
     /**
@@ -63,7 +78,7 @@ class AsteroidsRecyclerViewAdapter( val onClickListener: OnClickListener ) :
      * associated with the current item to the [onClick] function.
      * @param clickListener lambda that will be called with the current [AsteroidEntity]
      */
-    class OnClickListener(val clickListener: (asteroidEntity:AsteroidEntity) -> Unit) {
-        fun onClick(asteroidEntity:AsteroidEntity) = clickListener(asteroidEntity)
+    class OnClickListener(val clickListener: (asteroidEntity: AsteroidEntity) -> Unit) {
+        fun onClick(asteroidEntity: AsteroidEntity) = clickListener(asteroidEntity)
     }
 }

@@ -17,8 +17,13 @@ import com.udacity.asteroidradar.db.Entities.AsteroidEntity
 import com.udacity.asteroidradar.main.RequestStatus
 import kotlinx.coroutines.*
 import kotlinx.coroutines.GlobalScope.coroutineContext
-
-class AsteroidRepository(private val asteroidRoomDB: AsteroidRoomDB) {
+/**
+ * to solve the problem od executing insert function in Call back
+ * we passes the viewModelScope rather than using the GlobalScope which is very dangerous and may
+ * cause memory leaks if not used carefully
+ * if retrofit coroutines used no need to pass the viewModelScope and insert().await will used
+ * */
+class AsteroidRepository(private val asteroidRoomDB: AsteroidRoomDB,private val viewModelScope: CoroutineScope) {
     /**
      * status live data
      * */
@@ -37,9 +42,10 @@ class AsteroidRepository(private val asteroidRoomDB: AsteroidRoomDB) {
                     val asteroidsEntities = asteroids.toAsteroidEntity()
                     /**
                      * solution to execute insert function in Call back
-                     * if retrofit  coroutines used it shall be insert().await
+                     * if retrofit coroutines used it shall be insert().await
                      * */
-                   GlobalScope.launch(Dispatchers.IO) {
+
+                   viewModelScope.launch(Dispatchers.IO) {
                         asteroidRoomDB.asteroidDao.insertAsteroids(asteroidsEntities)
                     }
 

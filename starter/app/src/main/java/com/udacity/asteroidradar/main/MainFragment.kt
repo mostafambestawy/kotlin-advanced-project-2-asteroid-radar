@@ -14,7 +14,7 @@ class MainFragment : Fragment() {
      * lazy. This requires that viewModel not be referenced before onViewCreated(), which we
      * do in this Fragment.
      */
-    private val viewModel: MainViewModel by lazy {
+    private val mainViewModel: MainViewModel by lazy {
         val activity = requireNotNull(this.activity) {
             "You can only access the viewModel after onViewCreated()"
         }
@@ -26,10 +26,10 @@ class MainFragment : Fragment() {
         val binding = FragmentMainBinding.inflate(inflater)
         binding.lifecycleOwner = this
 
-        binding.viewModel = viewModel
+        binding.mainViewModel = mainViewModel
         binding.asteroidRecycler.adapter = AsteroidsRecyclerViewAdapter(AsteroidsRecyclerViewAdapter.OnClickListener {
-            viewModel.navigateToDetailsScreen()
-            viewModel.onNavigateToDetailsScreen()
+            //mainViewModel.navigateToDetailsScreen()
+            //mainViewModel.onNavigateToDetailsScreen()
         }   )
 
         setHasOptionsMenu(true)

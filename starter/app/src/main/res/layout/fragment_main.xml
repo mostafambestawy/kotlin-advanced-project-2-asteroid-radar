@@ -4,7 +4,7 @@
 
     <data>
         <variable
-            name="viewModel"
+            name="mainViewModel"
             type="com.udacity.asteroidradar.main.MainViewModel" />
 
     </data>
@@ -45,15 +45,14 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/asteroid_recycler"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_main_image_of_the_day_layout"
-            app:layout_constraintVertical_bias="0.0" />
+            app:asteroidsList="@{mainViewModel.asteroidsEntities}"/>
 
         <ProgressBar
             android:id="@+id/status_loading_wheel"

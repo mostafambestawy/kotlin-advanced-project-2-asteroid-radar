@@ -54,7 +54,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application){
     /**
      * create repository
      */
-    val asteroidRepository:AsteroidRepository = AsteroidRepository(getRoomDB(getApplication()))
+    val asteroidRepository:AsteroidRepository = AsteroidRepository(getRoomDB(getApplication()),viewModelScope)
 
     /**
      * refresh data from repository

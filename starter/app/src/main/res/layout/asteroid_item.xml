@@ -1,52 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="asteroidEntity"
             type="com.udacity.asteroidradar.db.Entities.AsteroidEntity" />
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary">
-        <ImageView
-            android:id="@+id/hazardStatusImageView"
-            android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        tools:background="@color/colorPrimary"
+        >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="10"
             android:layout_height="wrap_content"
-            tools:src="@drawable/ic_status_potentially_hazardous"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="@dimen/large_margin"
-            app:hazard_status="@{asteroidEntity.hazard_status}"
-            />
-        <TextView
-            android:id="@+id/asteroidNameText"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:text="683347 (2001K B67)"
-            android:layout_marginTop="@dimen/large_margin"
-            style="@style/style_header_text"
-            android:text="@{asteroidEntity.name}"/>
+            android:orientation="vertical"
+            >
 
-        <TextView
-            android:id="@+id/asteroidDate"
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/asteroidNameText"
+                style="@style/style_header_text"
+                android:layout_marginTop="@dimen/large_margin"
+                android:text="@{asteroidEntity.name}"
+                tools:text="683347 (2001K B67)" />
+
+            <TextView
+                android:id="@+id/asteroidDate"
+                style="@style/style_item_text"
+                android:text="@{asteroidEntity.date}"
+                tools:text="25-11-2022"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/asteroidNameText"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginBottom="@dimen/large_margin"
-            android:text="@{asteroidEntity.date}"
-            tools:text="2022-11-25"
-            style="@style/style_item_text"/>
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/hazardStatusImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:hazard_status="@{asteroidEntity.hazard_status}"
+                tools:src="@drawable/ic_status_potentially_hazardous" />
+        </LinearLayout>
 
+    </LinearLayout>
 
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
