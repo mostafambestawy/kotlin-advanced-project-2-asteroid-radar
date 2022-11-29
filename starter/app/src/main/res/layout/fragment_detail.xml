@@ -85,7 +85,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/large_padding"
-                        app:srcCompat="@drawable/ic_help_circle" />
+                        app:srcCompat="@drawable/ic_help_circle"
+                        android:onClick="@{()-> detailViewModel.displayAstronomicalUnitExplanationDialog()}"/>
 
                 </LinearLayout>
 
@@ -136,7 +137,7 @@
                     <TextView
                         android:id="@+id/distance_from_earth"
                         style="@style/style_item_text"
-                        android:text="@{detailViewModel.asteroidDetail.distance_from_earth}"
+                        app:distance_from_earth="@{detailViewModel.asteroidDetail.distance_from_earth}"
                         tools:text="0.0924 au" />
                 </LinearLayout>
 

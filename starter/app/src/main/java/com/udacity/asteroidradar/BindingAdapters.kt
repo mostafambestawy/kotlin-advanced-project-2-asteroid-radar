@@ -1,5 +1,6 @@
 package com.udacity.asteroidradar
 
+import android.content.DialogInterface.OnClickListener
 import android.net.Uri
 import android.widget.ImageView
 import android.widget.TextView
@@ -41,16 +42,21 @@ fun bindAsteroidStatusImage(imageView: ImageView, hazard_status: Boolean) {
 }
 
 @BindingAdapter("absolute_magnitude")
-fun bindAbsoluteMagnitude(textView: TextView, absolute_magnitude: Double) {
-    val context = textView.context
-    //val number = distance.toDouble()
-    textView.text = String.format(context.getString(R.string.astronomical_unit_format), absolute_magnitude)
+fun bindAbsoluteMagnitude(textView: TextView, absolute_magnitude: Double?) {
+    absolute_magnitude?.let {
+        val context = textView.context
+        textView.text =
+            String.format(context.getString(R.string.astronomical_unit_format), absolute_magnitude)
+    }
 }
 
 @BindingAdapter("estimated_diameter")
-fun bindEstimatedDiameter(textView: TextView, estimated_diameter: Double) {
-    val context = textView.context
-    textView.text = String.format(context.getString(R.string.km_unit_format), estimated_diameter)
+fun bindEstimatedDiameter(textView: TextView, estimated_diameter: Double?) {
+    estimated_diameter?.let {
+        val context = textView.context
+        textView.text =
+            String.format(context.getString(R.string.km_unit_format), estimated_diameter)
+    }
 }
 
 @BindingAdapter("relative_velocity")
@@ -60,12 +66,17 @@ fun bindRelativeVelocity(textView: TextView, relative_velocity: String?) {
         val number = relative_velocity.toDouble()
         textView.text = String.format(context.getString(R.string.km_s_unit_format), number)
     }
+}
 
 @BindingAdapter("distance_from_earth")
-fun bindDistanceFromEarth(textView: TextView, distance_from_earth: String) {
-    val context = textView.context
-    //val number = distance_from_earth.toDouble()
-    textView.text = String.format(context.getString(R.string.km_unit_format), distance_from_earth)
+fun bindDistanceFromEarth(textView: TextView, distance_from_earth: String?) {
+    distance_from_earth?.let {
+        val context = textView.context
+        textView.text =
+            String.format(context.getString(R.string.astronomical_unit_format), distance_from_earth)
+    }
 }
 
-}
+
+
+

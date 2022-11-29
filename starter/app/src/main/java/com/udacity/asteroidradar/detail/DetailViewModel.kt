@@ -38,9 +38,14 @@ class DetailViewModel(application: Application) : AndroidViewModel(application) 
             asteroidDetail = asteroidRepository.getAsteroidDetails(id!!)
         }
     }
-
+    private val _eventDisplayAstronomicalUnitExplanationDialog = MutableLiveData<Boolean>()
+    val eventDisplayAstronomicalUnitExplanationDialog: LiveData<Boolean>
+        get() = _eventDisplayAstronomicalUnitExplanationDialog
     fun displayAstronomicalUnitExplanationDialog(){
-
+        _eventDisplayAstronomicalUnitExplanationDialog.value = true
+    }
+    fun onAstronomicalUnitExplanationDialogDisplayed(){
+        _eventDisplayAstronomicalUnitExplanationDialog.value = false
     }
 
 
