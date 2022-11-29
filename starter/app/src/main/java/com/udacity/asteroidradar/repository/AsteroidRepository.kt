@@ -3,6 +3,7 @@ package com.udacity.asteroidradar.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.udacity.asteroidradar.AsteroidBrief
+import com.udacity.asteroidradar.AsteroidDetails
 import com.udacity.asteroidradar.db.Entities
 import com.udacity.asteroidradar.db.Entities.AsteroidEntity
 
@@ -74,7 +75,7 @@ class AsteroidRepository(
      * liveData for asteroids that exposed and can be listened from outside to get asteroids
      */
 
-    //val asteroidsEntities: LiveData<List<AsteroidEntity>> = asteroidRoomDB.asteroidDao.getAsteroid()
+
 
     val asteroidsBriefs: LiveData<List<AsteroidBrief>> = asteroidRoomDB.asteroidDao.getAsteroidsBriefs()
 
@@ -98,5 +99,15 @@ class AsteroidRepository(
      */
     val pictureOfDayEntity: LiveData<Entities.PictureOfDayEntity> =
         asteroidRoomDB.pictureOfDayDao.getPictureOfDayEntity()
+
+
+    suspend fun getAsteroidDetails(id:String): LiveData<AsteroidDetails>{
+       /**
+        * get only Database data
+        * No need to get Network data as the logic determine that the data surely fetched before
+        * */
+        return asteroidRoomDB.asteroidDao.getAsteroidDetails(id)
+
+    }
 
 }

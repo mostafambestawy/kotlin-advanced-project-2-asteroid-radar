@@ -43,18 +43,24 @@ class MainViewModel(application: Application) : AndroidViewModel(application){
     val eventNavigateToDetailsScreen: LiveData<Boolean>
         get() = _eventNavigateToDetailsScreen
 
-    fun navigateToDetailsScreen() {
+    private val _idToNavigate = MutableLiveData<String?>()
+    val idToNavigate: LiveData<String?>
+        get() = _idToNavigate
+
+    fun navigateToDetailsScreen(id:String) {
+        _idToNavigate.value = id
         _eventNavigateToDetailsScreen.value = true
     }
 
     fun onNavigateToDetailsScreen() {
+        _idToNavigate.value = null
         _eventNavigateToDetailsScreen.value = false
     }
 
     /**
      * create repository
      */
-    val asteroidRepository:AsteroidRepository = AsteroidRepository(getRoomDB(getApplication()),viewModelScope)
+    private val asteroidRepository:AsteroidRepository = AsteroidRepository(getRoomDB(getApplication()),viewModelScope)
 
     /**
      * refresh data from repository
@@ -69,7 +75,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application){
     /**
      * get live data asteroids from repository
      */
-    //val asteroidsEntities = asteroidRepository.asteroidsEntities
+
     val asteroidsBriefs = asteroidRepository.asteroidsBriefs
 
     val pictureOfDayEntity = asteroidRepository.pictureOfDayEntity
@@ -78,21 +84,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application){
 
 
 
-        /**
-         * coroutine
-         * */
-        /*viewModelScope.launch {
-            try {
-                val asteroids = AsteroidApi.asteroidServiceInterface.getAsteroidList().await()
-                Log.i("jsonData", asteroids.size.toString())
-            }
-            catch (e:Exception){
-                Log.i("jsonData",e.message.toString())
-            }
-        }
 
-    }
-    */
 
 
 

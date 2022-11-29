@@ -22,8 +22,8 @@ class DAO {
         @Query("SELECT id,name,date,hazard_status FROM asteroid")
         fun getAsteroidsBriefs(): LiveData<List<AsteroidBrief>>
 
-        @Query("SELECT id,hazard_status,absolute_magnitude,estimated_diameter,relative_velocity,distance_from_earth FROM asteroid WHERE id=:asteroid_id")
-        fun getAsteroidDetails(asteroid_id:String): LiveData<List<AsteroidDetails>>
+        @Query("SELECT id,hazard_status,date,absolute_magnitude,estimated_diameter,relative_velocity,distance_from_earth FROM asteroid WHERE id=:asteroid_id")
+        fun getAsteroidDetails(asteroid_id:String): LiveData<AsteroidDetails>
         
     }
     @Dao
