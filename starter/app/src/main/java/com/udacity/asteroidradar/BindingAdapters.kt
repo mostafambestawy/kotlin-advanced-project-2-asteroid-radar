@@ -1,16 +1,24 @@
 package com.udacity.asteroidradar
 
-import android.content.DialogInterface.OnClickListener
 import android.net.Uri
+import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.udacity.asteroidradar.main.AsteroidsRecyclerViewAdapter
+import com.udacity.asteroidradar.main.RequestStatus
+import kotlinx.android.synthetic.main.fragment_main.view.*
 
-@BindingAdapter("asteroidsList")
-fun bindAsteroidsList(recyclerView: RecyclerView, data:List<AsteroidBrief>?){
+@BindingAdapter(value = ["bind:asteroidsList", "bind:loadingStatus"])
+fun bindAsteroidsList(recyclerView: RecyclerView, data:List<AsteroidBrief>?,loadingStatus:RequestStatus?){
+    loadingStatus?.let {
+        if (loadingStatus == RequestStatus.DONE) {
+            recyclerView.visibility = View.VISIBLE
+        } else recyclerView.visibility = View.GONE
+    }
     data?.let {
         val adapter =  recyclerView.adapter as AsteroidsRecyclerViewAdapter
         adapter.submitList(data)
@@ -74,6 +82,25 @@ fun bindDistanceFromEarth(textView: TextView, distance_from_earth: String?) {
         val context = textView.context
         textView.text =
             String.format(context.getString(R.string.astronomical_unit_format), distance_from_earth)
+    }
+}
+@BindingAdapter("errorTextLoadingStatus")
+fun bindErrorText(textView: TextView,loadingStatus:RequestStatus?){
+    loadingStatus?.let {
+        if (loadingStatus == RequestStatus.ERROR)
+            textView.visibility = View.VISIBLE
+        else
+            textView.visibility = View.GONE
+    }
+}
+
+@BindingAdapter("progressBarLoadingStatus")
+fun bindLoadingProgressBar(progressBar: ProgressBar, loadingStatus:RequestStatus?){
+    loadingStatus?.let {
+        if (loadingStatus == RequestStatus.LOADING)
+            progressBar.visibility = View.VISIBLE
+        else
+            progressBar.visibility = View.GONE
     }
 }
 
