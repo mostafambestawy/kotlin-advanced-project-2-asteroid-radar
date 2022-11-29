@@ -7,23 +7,35 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.udacity.asteroidradar.AsteroidBrief
 import com.udacity.asteroidradar.AsteroidDetails
+import com.udacity.asteroidradar.Constants
 import com.udacity.asteroidradar.db.Entities.AsteroidEntity
+import java.text.SimpleDateFormat
+import java.util.*
 
 class DAO {
     @Dao
     interface AsteroidDao {
-        @Query("SELECT * FROM asteroid")
-        fun getAsteroid(): LiveData<List<AsteroidEntity>>
-
 
         @Insert(onConflict = OnConflictStrategy.REPLACE)
         fun insertAsteroids(asteroidEntity: List<AsteroidEntity>)
 
-        @Query("SELECT id,name,date,hazard_status FROM asteroid")
-        fun getAsteroidsBriefs(): LiveData<List<AsteroidBrief>>
+        @Query("SELECT id,name,date,hazard_status FROM asteroid WHERE date >= :today ORDER BY date")
+        fun getAsteroidsBriefs(today: String = this.getToday()): LiveData<List<AsteroidBrief>>
 
-        @Query("SELECT id,hazard_status,date,absolute_magnitude,estimated_diameter,relative_velocity,distance_from_earth FROM asteroid WHERE id=:asteroid_id")
+
+
+        @Query("SELECT id,hazard_status,date,absolute_magnitude,estimated_diameter,relative_velocity," +
+                "distance_from_earth FROM asteroid WHERE id=:asteroid_id")
         fun getAsteroidDetails(asteroid_id:String): LiveData<AsteroidDetails>
+
+
+
+        private fun getToday():String{
+            val calendar = Calendar.getInstance()
+            val currentTime = calendar.time
+            val dateFormat = SimpleDateFormat(Constants.API_QUERY_DATE_FORMAT, Locale.getDefault())
+            return dateFormat.format(currentTime)
+        }
         
     }
     @Dao
@@ -35,4 +47,7 @@ class DAO {
         fun insertPictureOfDayEntity(pictureOfDayEntity: Entities.PictureOfDayEntity)
 
     }
+
+
+
 }
