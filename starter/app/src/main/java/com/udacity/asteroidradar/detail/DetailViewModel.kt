@@ -27,7 +27,7 @@ class DetailViewModel(application: Application) : AndroidViewModel(application) 
      * create repository
      */
     private val asteroidRepository: AsteroidRepository =
-        AsteroidRepository(getRoomDB(getApplication()), viewModelScope)
+        AsteroidRepository(getRoomDB(getApplication()))
 
 
     lateinit var asteroidDetail: LiveData<AsteroidDetails>

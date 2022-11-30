@@ -32,13 +32,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application){
     }
 
 
-
-
-
-
-
-
-
     private val _eventNavigateToDetailsScreen = MutableLiveData<Boolean>()
     val eventNavigateToDetailsScreen: LiveData<Boolean>
         get() = _eventNavigateToDetailsScreen
@@ -60,17 +53,19 @@ class MainViewModel(application: Application) : AndroidViewModel(application){
     /**
      * create repository
      */
-    private val asteroidRepository:AsteroidRepository = AsteroidRepository(getRoomDB(getApplication()),viewModelScope)
+    private val asteroidRepository:AsteroidRepository = AsteroidRepository(getRoomDB(getApplication()))
+
+
 
     /**
-     * refresh data from repository
+     * No need transfer to background worker
      * */
-
     init {
-        viewModelScope.launch {
+
+        /*viewModelScope.launch {
             asteroidRepository.refreshAsteroids()
             asteroidRepository.getPictureOfDay()
-        }
+        }*/
     }
     /**
      * get live data asteroids from repository

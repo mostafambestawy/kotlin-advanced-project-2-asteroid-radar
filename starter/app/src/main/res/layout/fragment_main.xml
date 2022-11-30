@@ -79,6 +79,7 @@
             android:textColor="@color/default_text_color"
             app:errorTextLoadingStatus="@{mainViewModel.status}"
             android:padding="@dimen/large_padding"
+            android:visibility="gone"
            />
         </LinearLayout>
 

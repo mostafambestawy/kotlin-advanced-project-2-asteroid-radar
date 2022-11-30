@@ -5,17 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import com.udacity.asteroidradar.AsteroidBrief
 import com.udacity.asteroidradar.AsteroidDetails
 import com.udacity.asteroidradar.db.Entities
-import com.udacity.asteroidradar.db.Entities.AsteroidEntity
-
 import com.udacity.asteroidradar.db.Room.AsteroidRoomDB
 import com.udacity.asteroidradar.main.RequestStatus
 import com.udacity.asteroidradar.network.AsteroidApi
 import com.udacity.asteroidradar.network.parseAsteroidsJsonResult
 import com.udacity.asteroidradar.toAsteroidEntity
 import com.udacity.asteroidradar.toPictureOfDayEntity
-
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
@@ -28,10 +25,10 @@ import retrofit2.Response
  * we passes the viewModelScope rather than using the GlobalScope which is very dangerous and may
  * cause memory leaks if not used carefully
  * if retrofit coroutines used no need to pass the viewModelScope and insert().await will used
+ *  * but we could not make repository instance in worker , so we switch back to GlobalScope
  * */
 class AsteroidRepository(
-    private val asteroidRoomDB: AsteroidRoomDB,
-    private val viewModelScope: CoroutineScope
+    private val asteroidRoomDB: AsteroidRoomDB
 ) {
     /**
      * status live data
@@ -55,14 +52,11 @@ class AsteroidRepository(
                      * if retrofit coroutines used it shall be insert().await
                      * */
 
-                    viewModelScope.launch(Dispatchers.IO) {
+                    GlobalScope.launch(Dispatchers.IO) {
                         asteroidRoomDB.asteroidDao.insertAsteroids(asteroidsEntities)
                     }
-
-
                     status.postValue(RequestStatus.DONE)
                 }
-
 
                 override fun onFailure(call: Call<String>, t: Throwable) {
                     status.postValue(RequestStatus.ERROR)
@@ -76,8 +70,8 @@ class AsteroidRepository(
      */
 
 
-
-    val asteroidsBriefs: LiveData<List<AsteroidBrief>> = asteroidRoomDB.asteroidDao.getAsteroidsBriefs()
+    val asteroidsBriefs: LiveData<List<AsteroidBrief>> =
+        asteroidRoomDB.asteroidDao.getAsteroidsBriefs()
 
 
     /**
@@ -101,11 +95,11 @@ class AsteroidRepository(
         asteroidRoomDB.pictureOfDayDao.getPictureOfDayEntity()
 
 
-    suspend fun getAsteroidDetails(id:String): LiveData<AsteroidDetails>{
-       /**
-        * get only Database data
-        * No need to get Network data as the logic determine that the data surely fetched before
-        * */
+    suspend fun getAsteroidDetails(id: String): LiveData<AsteroidDetails> {
+        /**
+         * get only Database data
+         * No need to get Network data as the logic determine that the data surely fetched before
+         * */
         return asteroidRoomDB.asteroidDao.getAsteroidDetails(id)
 
     }
