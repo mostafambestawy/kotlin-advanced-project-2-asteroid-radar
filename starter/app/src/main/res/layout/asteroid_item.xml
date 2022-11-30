@@ -17,7 +17,7 @@
         android:orientation="horizontal"
         android:gravity="center"
         tools:background="@color/colorPrimary"
-        >
+        android:baselineAligned="false">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -52,7 +52,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:hazard_status="@{asteroidBrief.hazard_status}"
-                tools:src="@drawable/ic_status_potentially_hazardous" />
+                tools:src="@drawable/ic_status_potentially_hazardous"
+                android:contentDescription="@string/hazardous_or_safe_asteroid_icon" />
         </LinearLayout>
 
     </LinearLayout>

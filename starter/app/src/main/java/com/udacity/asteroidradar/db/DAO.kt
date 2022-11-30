@@ -28,6 +28,9 @@ class DAO {
                 "distance_from_earth FROM asteroid WHERE id=:asteroid_id")
         fun getAsteroidDetails(asteroid_id:String): LiveData<AsteroidDetails>
 
+        @Query("SELECT COUNT(id) FROM asteroid")
+        suspend fun getAsteroidsCount(): Long
+
 
 
         private fun getToday():String{

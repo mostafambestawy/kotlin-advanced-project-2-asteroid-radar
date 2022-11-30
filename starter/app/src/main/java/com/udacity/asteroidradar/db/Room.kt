@@ -9,11 +9,9 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.db.DAO.AsteroidDao
+import com.udacity.asteroidradar.db.DAO.PictureOfDayDao
 import com.udacity.asteroidradar.db.Entities.AsteroidEntity
 import com.udacity.asteroidradar.db.Room.AsteroidRoomDB
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-
 
 class Room {
     @Database(
@@ -23,11 +21,11 @@ class Room {
     )
     abstract class AsteroidRoomDB : RoomDatabase() {
         abstract val asteroidDao: AsteroidDao
-        abstract val pictureOfDayDao: DAO.PictureOfDayDao
+        abstract val pictureOfDayDao: PictureOfDayDao
     }
 }
 
-val TABLES = listOf(AsteroidEntity.TABLE_NAME ,Entities.PictureOfDayEntity.TABLE_NAME)
+val TABLES = listOf(AsteroidEntity.TABLE_NAME, Entities.PictureOfDayEntity.TABLE_NAME)
 val MIGRATION_1_2 = object : Migration(1, 2) {
     override fun migrate(database: SupportSQLiteDatabase) {
 
@@ -45,32 +43,27 @@ fun getRoomDB(context: Context): AsteroidRoomDB {
     synchronized(AsteroidRoomDB::class.java) {
         if (!::INSTANCE.isInitialized) {
             INSTANCE = Room.databaseBuilder(
-                context.applicationContext,
-                AsteroidRoomDB::class.java,
-                "asteroid_db"
-            )
-                .addCallback(object : RoomDatabase.Callback() {
-                    override fun onCreate(db: SupportSQLiteDatabase) {
-                        super.onCreate(db)
-                        // moving to a new thread
-                        synchronized(context) {
+                context.applicationContext, AsteroidRoomDB::class.java, "asteroid_db"
+            ).addCallback(object : RoomDatabase.Callback() {
+                override fun onCreate(db: SupportSQLiteDatabase) {
+                    super.onCreate(db)
+                    // moving to a new thread
+                    synchronized(context) {
 
-                            /** populate data using Dao's or execSQL */
-                            val queries = context.resources.getStringArray(R.array.data_populating_queries)
-                            for(query in queries){
+                        /** populate data using Dao's or execSQL */
+                        val queries =
+                            context.resources.getStringArray(R.array.data_populating_queries)
+                        for (query in queries) {
                             db.execSQL(query)
-                            }
-
                         }
 
                     }
-                })
-                .build()
+
+                }
+            }).build()
         }
     }
     return INSTANCE
 
 }
-fun buildRoomDB(){
 
-}

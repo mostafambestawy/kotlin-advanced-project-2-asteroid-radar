@@ -1,23 +1,13 @@
 package com.udacity.asteroidradar.main
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.*
-import com.udacity.asteroidradar.Asteroid
-import com.udacity.asteroidradar.db.Room
 import com.udacity.asteroidradar.db.getRoomDB
-import com.udacity.asteroidradar.network.AsteroidApi
-import com.udacity.asteroidradar.network.parseAsteroidsJsonResult
 import com.udacity.asteroidradar.repository.AsteroidRepository
-import com.udacity.asteroidradar.toAsteroidEntity
 import kotlinx.coroutines.launch
-import org.json.JSONObject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 enum class RequestStatus { LOADING, ERROR, DONE }
-class MainViewModel(application: Application) : AndroidViewModel(application){
+class MainViewModel(application: Application) : AndroidViewModel(application) {
     /**
      * Factory for constructing MainViewModel with parameter
      */
@@ -40,7 +30,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application){
     val idToNavigate: LiveData<String?>
         get() = _idToNavigate
 
-    fun navigateToDetailsScreen(id:String) {
+    fun navigateToDetailsScreen(id: String) {
         _idToNavigate.value = id
         _eventNavigateToDetailsScreen.value = true
     }
@@ -53,20 +43,27 @@ class MainViewModel(application: Application) : AndroidViewModel(application){
     /**
      * create repository
      */
-    private val asteroidRepository:AsteroidRepository = AsteroidRepository(getRoomDB(getApplication()))
-
+    private val asteroidRepository: AsteroidRepository =
+        AsteroidRepository(getRoomDB(getApplication()))
 
 
     /**
-     * No need transfer to background worker
+     * only get asteroids if database is empty on first use
      * */
     init {
-
-        /*viewModelScope.launch {
-            asteroidRepository.refreshAsteroids()
-            asteroidRepository.getPictureOfDay()
-        }*/
+        viewModelScope.launch {
+            if (emptyDatabase()) {
+                asteroidRepository.refreshAsteroids()
+                asteroidRepository.getPictureOfDay()
+            }
+        }
     }
+
+    private suspend fun emptyDatabase(): Boolean {
+
+        return getRoomDB(getApplication()).asteroidDao.getAsteroidsCount() < 1
+    }
+
     /**
      * get live data asteroids from repository
      */
@@ -74,15 +71,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application){
     val asteroidsBriefs = asteroidRepository.asteroidsBriefs
 
     val pictureOfDayEntity = asteroidRepository.pictureOfDayEntity
+
     // The external immutable LiveData for the request status
     val status: LiveData<RequestStatus> = asteroidRepository.status
-
-
-
-
-
-
-
 
 
 }

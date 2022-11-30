@@ -15,6 +15,7 @@
         android:layout_height="match_parent"
         android:background="@color/app_background">
 
+        <!--contentDescription added in binding adapter -->
         <ImageView
             android:id="@+id/details_hazardous_status_image"
             android:layout_width="match_parent"
@@ -25,7 +26,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@drawable/asteroid_hazardous"
-            android:contentDescription= "@string/potentially_hazardous_asteroid_or_safe_image"/>
+            tools:ignore="ContentDescription" />
 
         <ScrollView
             android:layout_width="0dp"
@@ -88,7 +89,7 @@
                         android:padding="@dimen/large_padding"
                         app:srcCompat="@drawable/ic_help_circle"
                         android:onClick="@{()-> detailViewModel.displayAstronomicalUnitExplanationDialog()}"
-                        android:contentDescription="@string/help_button" />
+                        android:contentDescription="@string/astronomical_unit_explanation" />
 
                 </LinearLayout>
 

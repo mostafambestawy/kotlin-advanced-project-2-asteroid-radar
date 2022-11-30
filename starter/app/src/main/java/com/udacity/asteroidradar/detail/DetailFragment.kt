@@ -11,7 +11,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentDetailBinding
-import com.udacity.asteroidradar.main.MainViewModel
 
 class DetailFragment : Fragment() {
 
@@ -28,7 +27,7 @@ class DetailFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         val binding = FragmentDetailBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.detailViewModel = detailViewModel
@@ -39,20 +38,20 @@ class DetailFragment : Fragment() {
         /**
          * handel help button from viewModel
          * */
-        detailViewModel.eventDisplayAstronomicalUnitExplanationDialog.observe(viewLifecycleOwner,
-            Observer {
-                if(it) {
-                    displayAstronomicalUnitExplanationDialog()
-                    detailViewModel.onAstronomicalUnitExplanationDialogDisplayed()
-                }
-            })
+        detailViewModel.eventDisplayAstronomicalUnitExplanationDialog.observe(viewLifecycleOwner
+        ) {
+            if (it) {
+                displayAstronomicalUnitExplanationDialog()
+                detailViewModel.onAstronomicalUnitExplanationDialogDisplayed()
+            }
+        }
 
         return binding.root
     }
 
     private fun displayAstronomicalUnitExplanationDialog() {
         val builder = AlertDialog.Builder(requireActivity())
-            .setMessage(getString(R.string.astronomica_unit_explanation))
+            .setMessage(getString(R.string.astronomical_unit_explanation))
             .setPositiveButton(android.R.string.ok, null)
         builder.create().show()
     }

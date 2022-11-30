@@ -13,39 +13,58 @@ import com.udacity.asteroidradar.main.RequestStatus
 import kotlinx.android.synthetic.main.fragment_main.view.*
 
 @BindingAdapter(value = ["bind:asteroidsList", "bind:loadingStatus"])
-fun bindAsteroidsList(recyclerView: RecyclerView, data:List<AsteroidBrief>?,loadingStatus:RequestStatus?){
+fun bindAsteroidsList(
+    recyclerView: RecyclerView,
+    data: List<AsteroidBrief>?,
+    loadingStatus: RequestStatus?
+) {
     loadingStatus?.let {
         if (loadingStatus == RequestStatus.DONE) {
             recyclerView.visibility = View.VISIBLE
         } else recyclerView.visibility = View.GONE
     }
     data?.let {
-        val adapter =  recyclerView.adapter as AsteroidsRecyclerViewAdapter
+        val adapter = recyclerView.adapter as AsteroidsRecyclerViewAdapter
         adapter.submitList(data)
     }
 
 }
-@BindingAdapter("pictureOfDayUrl")
-fun bindPictureOfDayUrl(imageView: ImageView, url: String?) {
-    url?.let { Picasso.with(imageView.context).load(Uri.parse(url)).into(imageView)}
+
+@BindingAdapter(value = ["bind:pictureOfDayUrl", "bind:contentDescription"])
+fun bindPictureOfDayUrl(imageView: ImageView, url: String?, contentDescription: String?) {
+    url?.let {
+        val context = imageView.context
+        Picasso.with(context).load(Uri.parse(url)).into(imageView)
+        imageView.contentDescription = String.format(
+            context.getString(R.string.nasa_picture_of_day_content_description_format),
+            contentDescription
+        )
+    }
 
 }
 
 @BindingAdapter("hazard_status")
 fun bindHazardStatus(imageView: ImageView, hazard_status: Boolean) {
+    val context = imageView.context
     if (hazard_status) {
         imageView.setImageResource(R.drawable.ic_status_potentially_hazardous)
+        imageView.contentDescription = context.getString(R.string.potentially_hazardous_asteroid)
+
     } else {
         imageView.setImageResource(R.drawable.ic_status_normal)
+        imageView.contentDescription = context.getString(R.string.not_hazardous_asteroid)
     }
 }
 
 @BindingAdapter("asteroidStatusImage")
 fun bindAsteroidStatusImage(imageView: ImageView, hazard_status: Boolean) {
+    val context = imageView.context
     if (hazard_status) {
         imageView.setImageResource(R.drawable.asteroid_hazardous)
+        imageView.contentDescription = context.getString(R.string.potentially_hazardous_asteroid)
     } else {
         imageView.setImageResource(R.drawable.asteroid_safe)
+        imageView.contentDescription = context.getString(R.string.not_hazardous_asteroid)
     }
 }
 
@@ -84,8 +103,9 @@ fun bindDistanceFromEarth(textView: TextView, distance_from_earth: String?) {
             String.format(context.getString(R.string.astronomical_unit_format), distance_from_earth)
     }
 }
+
 @BindingAdapter("errorTextLoadingStatus")
-fun bindErrorText(textView: TextView,loadingStatus:RequestStatus?){
+fun bindErrorText(textView: TextView, loadingStatus: RequestStatus?) {
     loadingStatus?.let {
         if (loadingStatus == RequestStatus.ERROR)
             textView.visibility = View.VISIBLE
@@ -95,7 +115,7 @@ fun bindErrorText(textView: TextView,loadingStatus:RequestStatus?){
 }
 
 @BindingAdapter("progressBarLoadingStatus")
-fun bindLoadingProgressBar(progressBar: ProgressBar, loadingStatus:RequestStatus?){
+fun bindLoadingProgressBar(progressBar: ProgressBar, loadingStatus: RequestStatus?) {
     loadingStatus?.let {
         if (loadingStatus == RequestStatus.LOADING)
             progressBar.visibility = View.VISIBLE
