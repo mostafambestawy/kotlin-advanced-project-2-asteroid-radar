@@ -16,7 +16,7 @@
         android:background="@color/app_background">
 
         <ImageView
-            android:id="@+id/activity_main_image_of_the_day"
+            android:id="@+id/details_hazardous_status_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
@@ -24,7 +24,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/asteroid_hazardous" />
+            tools:srcCompat="@drawable/asteroid_hazardous"
+            android:contentDescription= "@string/potentially_hazardous_asteroid_or_safe_image"/>
 
         <ScrollView
             android:layout_width="0dp"
@@ -32,7 +33,7 @@
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activity_main_image_of_the_day">
+            app:layout_constraintTop_toBottomOf="@+id/details_hazardous_status_image">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -86,7 +87,8 @@
                         android:layout_height="wrap_content"
                         android:padding="@dimen/large_padding"
                         app:srcCompat="@drawable/ic_help_circle"
-                        android:onClick="@{()-> detailViewModel.displayAstronomicalUnitExplanationDialog()}"/>
+                        android:onClick="@{()-> detailViewModel.displayAstronomicalUnitExplanationDialog()}"
+                        android:contentDescription="@string/help_button" />
 
                 </LinearLayout>
 
