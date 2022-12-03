@@ -106,13 +106,11 @@ class AsteroidRepository(
 
      fun getAsteroidsBriefs(filter:AsteroidsFilter):List<AsteroidBrief>{
          var mAsteroidsBriefs : List<AsteroidBrief>? = null
-           when (filter) {
-                AsteroidsFilter.SHOW_WEEK -> mAsteroidsBriefs =
-                    asteroidRoomDB.asteroidDao.getWeekAsteroidsBriefs()
-                AsteroidsFilter.SHOW_TODAY -> mAsteroidsBriefs =
-                    asteroidRoomDB.asteroidDao.getTodayAsteroidsBriefs()
-                else -> mAsteroidsBriefs = asteroidRoomDB.asteroidDao.getWeekAsteroidsBriefs()
-            }
+         mAsteroidsBriefs = when (filter) {
+             AsteroidsFilter.SHOW_WEEK -> asteroidRoomDB.asteroidDao.getWeekAsteroidsBriefs()
+             AsteroidsFilter.SHOW_TODAY -> asteroidRoomDB.asteroidDao.getTodayAsteroidsBriefs()
+             else -> asteroidRoomDB.asteroidDao.getWeekAsteroidsBriefs()
+         }
          return mAsteroidsBriefs
         }
 

@@ -7,10 +7,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.udacity.asteroidradar.AsteroidBrief
 import com.udacity.asteroidradar.databinding.AsteroidItemBinding
-import com.udacity.asteroidradar.db.Entities.AsteroidEntity
 
 
-class AsteroidsRecyclerViewAdapter(val onClickListener: OnClickListener) :
+class AsteroidsRecyclerViewAdapter(private val onClickListener: OnClickListener) :
     ListAdapter<AsteroidBrief, AsteroidsRecyclerViewAdapter.AsteroidViewHolder>(DiffCallback) {
     /**
      * The AsteroidViewHolder constructor takes the binding variable from the associated

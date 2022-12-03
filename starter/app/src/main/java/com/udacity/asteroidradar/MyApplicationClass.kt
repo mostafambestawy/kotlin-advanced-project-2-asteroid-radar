@@ -2,7 +2,6 @@ package com.udacity.asteroidradar
 
 import android.app.Application
 import androidx.work.*
-import com.udacity.asteroidradar.db.getRoomDB
 import com.udacity.asteroidradar.worker.SyncDataWorker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -19,12 +18,9 @@ class MyApplicationClass : Application() {
 
     private fun delayedInit() {
         applicationScope.launch {
-                launchPeriodicWork()
+            launchPeriodicWork()
         }
     }
-
-
-
 
 
     private fun launchPeriodicWork() {

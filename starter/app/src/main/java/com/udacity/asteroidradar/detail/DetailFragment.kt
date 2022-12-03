@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentDetailBinding
@@ -23,22 +22,28 @@ class DetailFragment : Fragment() {
         val activity = requireNotNull(this.activity) {
             "You can only access the viewModel after onViewCreated()"
         }
-        ViewModelProvider(this, DetailViewModel.Factory(activity.application)).get(DetailViewModel::class.java)
+        ViewModelProvider(
+            this,
+            DetailViewModel.Factory(activity.application)
+        ).get(DetailViewModel::class.java)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         val binding = FragmentDetailBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.detailViewModel = detailViewModel
         /**get Id from safe args */
         val id = DetailFragmentArgs.fromBundle(requireArguments()).id
         /**get AsteroidDetail from repository */
-       detailViewModel.getAsteroidDetail(id)
+        detailViewModel.getAsteroidDetail(id)
         /**
          * handel help button from viewModel
          * */
-        detailViewModel.eventDisplayAstronomicalUnitExplanationDialog.observe(viewLifecycleOwner
+        detailViewModel.eventDisplayAstronomicalUnitExplanationDialog.observe(
+            viewLifecycleOwner
         ) {
             if (it) {
                 displayAstronomicalUnitExplanationDialog()

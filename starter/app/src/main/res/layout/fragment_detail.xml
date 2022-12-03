@@ -89,7 +89,7 @@
                         android:padding="@dimen/large_padding"
                         app:srcCompat="@drawable/ic_help_circle"
                         android:onClick="@{()-> detailViewModel.displayAstronomicalUnitExplanationDialog()}"
-                        android:contentDescription="@string/astronomical_unit_explanation" />
+                        android:contentDescription="@string/astronomical_unit_explanation_button" />
 
                 </LinearLayout>
 
