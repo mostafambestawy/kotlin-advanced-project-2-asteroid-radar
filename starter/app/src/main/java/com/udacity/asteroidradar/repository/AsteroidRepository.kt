@@ -27,6 +27,7 @@ import retrofit2.Response
  * if retrofit coroutines used no need to pass the viewModelScope and insert().await will used
  *  * but we could not make repository instance in worker , so we switch back to GlobalScope
  * */
+enum class AsteroidsFilter(val value: String) { SHOW_WEEK("week"), SHOW_TODAY("today"), SHOW_SAVED("saved") }
 class AsteroidRepository(
     private val asteroidRoomDB: AsteroidRoomDB
 ) {
