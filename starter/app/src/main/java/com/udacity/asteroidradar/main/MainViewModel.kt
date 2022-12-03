@@ -2,9 +2,13 @@ package com.udacity.asteroidradar.main
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.udacity.asteroidradar.AsteroidBrief
 import com.udacity.asteroidradar.db.getRoomDB
 import com.udacity.asteroidradar.repository.AsteroidRepository
+import com.udacity.asteroidradar.repository.AsteroidsFilter
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 enum class RequestStatus { LOADING, ERROR, DONE }
 class MainViewModel(application: Application) : AndroidViewModel(application) {
@@ -46,17 +50,27 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val asteroidRepository: AsteroidRepository =
         AsteroidRepository(getRoomDB(getApplication()))
 
-
     /**
-     * only get asteroids if database is empty on first use
-     * */
+     * get live data asteroids from repository
+     */
+
+    private val _asteroidsBriefs = MutableLiveData<List<AsteroidBrief>>()
+
+    val asteroidsBriefs:LiveData<List<AsteroidBrief>>
+        get() = _asteroidsBriefs
+
     init {
+        /**
+         * only get asteroids if database is empty on first use
+         * */
         viewModelScope.launch {
             if (emptyDatabase()) {
-                asteroidRepository.refreshAsteroids()
-                asteroidRepository.getPictureOfDay()
+                asteroidRepository.refreshApiAsteroids()
+                asteroidRepository.getApiPictureOfDay()
             }
         }
+        /** Week data is the default view at fragment launching */
+        getAsteroidsBriefs(AsteroidsFilter.SHOW_WEEK)
     }
 
     private suspend fun emptyDatabase(): Boolean {
@@ -64,16 +78,21 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         return getRoomDB(getApplication()).asteroidDao.getAsteroidsCount() < 1
     }
 
-    /**
-     * get live data asteroids from repository
-     */
 
-    val asteroidsBriefs = asteroidRepository.asteroidsBriefs
+
 
     val pictureOfDayEntity = asteroidRepository.pictureOfDayEntity
 
     // The external immutable LiveData for the request status
     val status: LiveData<RequestStatus> = asteroidRepository.status
+
+    fun getAsteroidsBriefs(filter: AsteroidsFilter){
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                _asteroidsBriefs.postValue(asteroidRepository.getAsteroidsBriefs(filter))
+            }
+        }
+    }
 
 
 }

@@ -9,6 +9,8 @@ import com.udacity.asteroidradar.AsteroidBrief
 import com.udacity.asteroidradar.AsteroidDetails
 import com.udacity.asteroidradar.Constants
 import com.udacity.asteroidradar.db.Entities.AsteroidEntity
+import com.udacity.asteroidradar.network.getToday
+import com.udacity.asteroidradar.network.getWeekDay
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -20,7 +22,13 @@ class DAO {
         fun insertAsteroids(asteroidEntity: List<AsteroidEntity>)
 
         @Query("SELECT id,name,date,hazard_status FROM asteroid WHERE date >= :today ORDER BY date")
-        fun getAsteroidsBriefs(today: String = this.getToday()): LiveData<List<AsteroidBrief>>
+        fun getAsteroidsBriefs(today: String = getToday()): LiveData<List<AsteroidBrief>>
+
+        @Query("SELECT id,name,date,hazard_status FROM asteroid WHERE date = :today ORDER BY date")
+        fun getTodayAsteroidsBriefs(today: String = getToday()): List<AsteroidBrief>
+
+        @Query("SELECT id,name,date,hazard_status FROM asteroid WHERE date <=:startDay ORDER BY date")
+        fun getWeekAsteroidsBriefs(startDay: String = getWeekDay()): List<AsteroidBrief>
 
 
 
@@ -33,12 +41,7 @@ class DAO {
 
 
 
-        private fun getToday():String{
-            val calendar = Calendar.getInstance()
-            val currentTime = calendar.time
-            val dateFormat = SimpleDateFormat(Constants.API_QUERY_DATE_FORMAT, Locale.getDefault())
-            return dateFormat.format(currentTime)
-        }
+
         
     }
     @Dao

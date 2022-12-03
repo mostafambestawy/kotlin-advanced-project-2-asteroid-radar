@@ -5,8 +5,6 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.udacity.asteroidradar.db.getRoomDB
 import com.udacity.asteroidradar.repository.AsteroidRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.coroutineScope
 
 class SyncDataWorker (context:Context,params:WorkerParameters):CoroutineWorker(context, params){
     companion object {
@@ -16,8 +14,8 @@ class SyncDataWorker (context:Context,params:WorkerParameters):CoroutineWorker(c
         val asteroidRoomDB = getRoomDB(applicationContext)
         val asteroidRepository = AsteroidRepository(asteroidRoomDB)
         return try {
-            asteroidRepository.refreshAsteroids()
-            asteroidRepository.getPictureOfDay()
+            asteroidRepository.refreshApiAsteroids()
+            asteroidRepository.getApiPictureOfDay()
             Result.success()
         } catch (e:Exception){
             Result.retry()

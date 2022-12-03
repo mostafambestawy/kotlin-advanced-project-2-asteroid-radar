@@ -39,7 +39,7 @@ class AsteroidRepository(
     /**
      * get Asteroids from network then save it in Room Database
      * */
-    suspend fun refreshAsteroids() {
+    suspend fun refreshApiAsteroids() {
         withContext(Dispatchers.IO) {
             status.postValue(RequestStatus.LOADING)
             AsteroidApi.asteroidServiceInterface.getAsteroidList().enqueue(object :
@@ -71,14 +71,13 @@ class AsteroidRepository(
      */
 
 
-    val asteroidsBriefs: LiveData<List<AsteroidBrief>> =
-        asteroidRoomDB.asteroidDao.getAsteroidsBriefs()
+
 
 
     /**
      * get PictureOfDay from network then save Entity  it in Room Database
      * */
-    suspend fun getPictureOfDay() {
+    suspend fun getApiPictureOfDay() {
         withContext(Dispatchers.IO) {
             status.postValue(RequestStatus.LOADING)
             val pictureOfDay = AsteroidApi.asteroidServiceInterface.getPictureOfTheDay().await()
@@ -96,7 +95,7 @@ class AsteroidRepository(
         asteroidRoomDB.pictureOfDayDao.getPictureOfDayEntity()
 
 
-    suspend fun getAsteroidDetails(id: String): LiveData<AsteroidDetails> {
+    fun getAsteroidDetails(id: String): LiveData<AsteroidDetails> {
         /**
          * get only Database data
          * No need to get Network data as the logic determine that the data surely fetched before
@@ -104,5 +103,18 @@ class AsteroidRepository(
         return asteroidRoomDB.asteroidDao.getAsteroidDetails(id)
 
     }
+
+     fun getAsteroidsBriefs(filter:AsteroidsFilter):List<AsteroidBrief>{
+         var mAsteroidsBriefs : List<AsteroidBrief>? = null
+           when (filter) {
+                AsteroidsFilter.SHOW_WEEK -> mAsteroidsBriefs =
+                    asteroidRoomDB.asteroidDao.getWeekAsteroidsBriefs()
+                AsteroidsFilter.SHOW_TODAY -> mAsteroidsBriefs =
+                    asteroidRoomDB.asteroidDao.getTodayAsteroidsBriefs()
+                else -> mAsteroidsBriefs = asteroidRoomDB.asteroidDao.getWeekAsteroidsBriefs()
+            }
+         return mAsteroidsBriefs
+        }
+
 
 }
