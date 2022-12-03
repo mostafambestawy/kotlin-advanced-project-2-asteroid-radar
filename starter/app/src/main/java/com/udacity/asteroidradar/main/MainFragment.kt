@@ -10,19 +10,6 @@ import com.udacity.asteroidradar.databinding.FragmentMainBinding
 import com.udacity.asteroidradar.repository.AsteroidsFilter
 
 class MainFragment : Fragment() {
-    /** Required Feature from review */
-
-    /**You will need inflate and add Menu to show the filters for today, week and saved. Currently,
-     * saved and week filter selection should return the entire list of Asteroids, but later, if you
-     * customize the fetching interval to more than a week, then returned data for week and all
-     * filter would be different.
-    You can use Transformations.switchMap to get a new instance of the LiveData to be observed. You
-    can have a private MutableLiveData to hold the filter type which can be passed to switchMap
-    source parameter and whenever user selects filter, switchMap will get triggered and you can
-    return the appropriate LiveData from your Database DAO. You can assign the return value of
-    switchMap to a single property in the ViewModel which can be observed once and the new data can
-    be submitted to list😃*/
-
 
     /**
      * One way to delay creation of the viewModel until an appropriate lifecycle method is to use
